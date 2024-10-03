@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 // Doesn't need to be an interface, so it won't be
 //        The service layer (domain) contains your business logic.
@@ -48,6 +49,16 @@ public class UserService {
         return new UserDto(users.getUsername(),
                 users.getFirstName(), users.getLastName(), users.getEmail(), users.getId(),
                 users.getUniversity());
+    }
+
+    public UserDto findUserById(Long id) {
+        Optional<Users> user = userRepository.findById(id);
+
+        if(user.isPresent()) {
+            return convertToDTO(user.get());
+        } else {
+            return null;
+        }
     }
 
     public Iterable<UserDto> convertIterableUserToDto(Iterable<Users> iterableUsers) {
